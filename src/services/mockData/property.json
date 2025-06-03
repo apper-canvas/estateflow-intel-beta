@@ -1,0 +1,362 @@
+[
+  {
+    "id": "1",
+    "title": "Modern Downtown Loft with Skyline Views",
+    "price": 850000,
+    "location": {
+      "street": "123 Main St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94105",
+      "coordinates": { "lat": 37.7749, "lng": -122.4194 }
+    },
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1200,
+    "images": [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Pool", "Gym", "Parking", "Rooftop Deck", "Concierge"],
+    "listingDate": "2024-01-15T08:00:00Z",
+    "propertyType": "apartment",
+    "status": "available",
+    "description": "Stunning modern loft featuring floor-to-ceiling windows and premium finishes throughout."
+  },
+  {
+    "id": "2",
+    "title": "Charming Victorian Home with Garden",
+    "price": 1250000,
+    "location": {
+      "street": "456 Oak Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zipCode": "97201",
+      "coordinates": { "lat": 45.5152, "lng": -122.6784 }
+    },
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 2800,
+    "images": [
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Garden", "Fireplace", "Hardwood Floors", "Updated Kitchen", "Wine Cellar"],
+    "listingDate": "2024-01-12T10:30:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Beautifully restored Victorian home with original architectural details and modern updates."
+  },
+  {
+    "id": "3",
+    "title": "Luxury Beachfront Condo",
+    "price": 2100000,
+    "location": {
+      "street": "789 Ocean Drive",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33139",
+      "coordinates": { "lat": 25.7617, "lng": -80.1918 }
+    },
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "squareFeet": 2200,
+    "images": [
+      "https://images.unsplash.com/photo-1571055107559-3e67626fa8be?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Beach Access", "Pool", "Spa", "Valet Parking", "24/7 Security"],
+    "listingDate": "2024-01-10T14:15:00Z",
+    "propertyType": "condo",
+    "status": "pending",
+    "description": "Exclusive beachfront condominium with panoramic ocean views and resort-style amenities."
+  },
+  {
+    "id": "4",
+    "title": "Contemporary Townhouse in Historic District",
+    "price": 675000,
+    "location": {
+      "street": "321 Heritage Lane",
+      "city": "Charleston",
+      "state": "SC",
+      "zipCode": "29401",
+      "coordinates": { "lat": 32.7765, "lng": -79.9311 }
+    },
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 1800,
+    "images": [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Private Patio", "Garage", "Modern Kitchen", "Walk-in Closets"],
+    "listingDate": "2024-01-08T16:45:00Z",
+    "propertyType": "townhouse",
+    "status": "available",
+    "description": "Stylish townhouse blending contemporary design with historic charm in the heart of Charleston."
+  },
+  {
+    "id": "5",
+    "title": "Spacious Family Home with Pool",
+    "price": 950000,
+    "location": {
+      "street": "555 Maple Street",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "78704",
+      "coordinates": { "lat": 30.2672, "lng": -97.7431 }
+    },
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 3500,
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Swimming Pool", "Large Yard", "3-Car Garage", "Home Office", "Chef's Kitchen"],
+    "listingDate": "2024-01-05T11:20:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Perfect family home featuring an open floor plan, gourmet kitchen, and resort-style backyard."
+  },
+  {
+    "id": "6",
+    "title": "Urban Studio with City Views",
+    "price": 425000,
+    "location": {
+      "street": "777 Broadway",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10003",
+      "coordinates": { "lat": 40.7128, "lng": -74.0060 }
+    },
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "squareFeet": 650,
+    "images": [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["High Ceilings", "Exposed Brick", "Modern Appliances", "Doorman", "Fitness Center"],
+    "listingDate": "2024-01-03T09:10:00Z",
+    "propertyType": "apartment",
+    "status": "available",
+    "description": "Chic studio apartment in prime Manhattan location with stunning city views and modern amenities."
+  },
+  {
+    "id": "7",
+    "title": "Mountain Retreat Cabin",
+    "price": 725000,
+    "location": {
+      "street": "999 Pine Ridge Road",
+      "city": "Aspen",
+      "state": "CO",
+      "zipCode": "81611",
+      "coordinates": { "lat": 39.1911, "lng": -106.8175 }
+    },
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 2000,
+    "images": [
+      "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Mountain Views", "Fireplace", "Deck", "Hot Tub", "Ski Storage"],
+    "listingDate": "2024-01-01T15:30:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Cozy mountain retreat with breathtaking views and easy access to world-class skiing."
+  },
+  {
+    "id": "8",
+    "title": "Waterfront Penthouse Suite",
+    "price": 3500000,
+    "location": {
+      "street": "100 Harbor View",
+      "city": "Seattle",
+      "state": "WA",
+      "zipCode": "98101",
+      "coordinates": { "lat": 47.6062, "lng": -122.3321 }
+    },
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "squareFeet": 4200,
+    "images": [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Water Views", "Private Elevator", "Wine Cellar", "Home Theater", "Chef's Kitchen"],
+    "listingDate": "2023-12-28T12:00:00Z",
+    "propertyType": "apartment",
+    "status": "available",
+    "description": "Extraordinary penthouse offering panoramic water views and unparalleled luxury finishes."
+  },
+  {
+    "id": "9",
+    "title": "Suburban Ranch with Acreage",
+    "price": 595000,
+    "location": {
+      "street": "456 Country Lane",
+      "city": "Nashville",
+      "state": "TN",
+      "zipCode": "37205",
+      "coordinates": { "lat": 36.1627, "lng": -86.7816 }
+    },
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 2600,
+    "images": [
+      "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Large Lot", "Barn", "Pasture", "Workshop", "Country Kitchen"],
+    "listingDate": "2023-12-25T08:45:00Z",
+    "propertyType": "house",
+    "status": "sold",
+    "description": "Peaceful ranch-style home on 5 acres with stunning pastoral views and country living amenities."
+  },
+  {
+    "id": "10",
+    "title": "Historic Brownstone with Character",
+    "price": 1850000,
+    "location": {
+      "street": "234 Commonwealth Ave",
+      "city": "Boston",
+      "state": "MA",
+      "zipCode": "02116",
+      "coordinates": { "lat": 42.3601, "lng": -71.0589 }
+    },
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "squareFeet": 3200,
+    "images": [
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Original Details", "Private Garden", "Parking", "High Ceilings", "Period Features"],
+    "listingDate": "2023-12-20T13:15:00Z",
+    "propertyType": "townhouse",
+    "status": "available",
+    "description": "Magnificent Victorian brownstone with original architectural details and modern conveniences."
+  },
+  {
+    "id": "11",
+    "title": "Desert Oasis with Pool",
+    "price": 785000,
+    "location": {
+      "street": "888 Cactus Drive",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zipCode": "85028",
+      "coordinates": { "lat": 33.4484, "lng": -112.0740 }
+    },
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "squareFeet": 2400,
+    "images": [
+      "https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Resort Pool", "Desert Landscaping", "Outdoor Kitchen", "3-Car Garage", "Solar Panels"],
+    "listingDate": "2023-12-18T10:30:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Stunning desert home with resort-style amenities and eco-friendly features throughout."
+  },
+  {
+    "id": "12",
+    "title": "Lakefront Cottage Getaway",
+    "price": 465000,
+    "location": {
+      "street": "111 Lake Shore Drive",
+      "city": "Lake Tahoe",
+      "state": "CA",
+      "zipCode": "96150",
+      "coordinates": { "lat": 38.9399, "lng": -119.9772 }
+    },
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1400,
+    "images": [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Lake Access", "Private Dock", "Fireplace", "Mountain Views", "Outdoor Deck"],
+    "listingDate": "2023-12-15T14:20:00Z",
+    "propertyType": "house",
+    "status": "pending",
+    "description": "Charming lakefront cottage with private dock and stunning mountain views for the perfect retreat."
+  },
+  {
+    "id": "13",
+    "title": "Modern Farmhouse with Acreage",
+    "price": 1125000,
+    "location": {
+      "street": "222 Farmstead Road",
+      "city": "Napa",
+      "state": "CA",
+      "zipCode": "94558",
+      "coordinates": { "lat": 38.2975, "lng": -122.2869 }
+    },
+    "bedrooms": 5,
+    "bathrooms": 4,
+    "squareFeet": 3800,
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Wine Country Views", "Gourmet Kitchen", "Guest House", "Vineyard", "Barn"],
+    "listingDate": "2023-12-12T16:45:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Elegant modern farmhouse on 10 acres in the heart of Napa Valley wine country."
+  },
+  {
+    "id": "14",
+    "title": "City Center High-Rise Apartment",
+    "price": 675000,
+    "location": {
+      "street": "333 Downtown Plaza",
+      "city": "Denver",
+      "state": "CO",
+      "zipCode": "80202",
+      "coordinates": { "lat": 39.7392, "lng": -104.9903 }
+    },
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "squareFeet": 1100,
+    "images": [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["City Views", "Rooftop Pool", "Concierge", "Gym", "Underground Parking"],
+    "listingDate": "2023-12-10T11:15:00Z",
+    "propertyType": "apartment",
+    "status": "available",
+    "description": "Sleek high-rise apartment with panoramic city views and premium building amenities."
+  },
+  {
+    "id": "15",
+    "title": "Coastal Craftsman Bungalow",
+    "price": 925000,
+    "location": {
+      "street": "444 Seaside Avenue",
+      "city": "Santa Barbara",
+      "state": "CA",
+      "zipCode": "93101",
+      "coordinates": { "lat": 34.4208, "lng": -119.6982 }
+    },
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "squareFeet": 1900,
+    "images": [
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop"
+    ],
+    "amenities": ["Ocean Views", "Craftsman Details", "Garden", "Walking Distance to Beach", "Hardwood Floors"],
+    "listingDate": "2023-12-08T09:30:00Z",
+    "propertyType": "house",
+    "status": "available",
+    "description": "Beautiful Craftsman bungalow with original details and stunning ocean views in prime Santa Barbara location."
+  }
+]

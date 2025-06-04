@@ -17,17 +17,16 @@ function PropertyDetails() {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
-    const loadPropertyDetails = async () => {
+const loadPropertyDetails = async () => {
       try {
         setLoading(true)
         const properties = await propertyService.getAll()
-        const foundProperty = properties.find(p => p.id === parseInt(id))
+        const foundProperty = properties.find(p => p.id === id)
         
         if (!foundProperty) {
           setError('Property not found')
           return
         }
-        
         setProperty(foundProperty)
         
         // Load agent details if available

@@ -15,10 +15,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="/neighborhood/:city/:state" element={<NeighborhoodDetails />} />
         <Route path="/comparison" element={<PropertyComparison />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      
       <ToastContainer
         position="top-right"
         autoClose={4000}

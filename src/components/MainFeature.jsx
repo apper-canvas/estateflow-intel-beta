@@ -121,15 +121,14 @@ function MainFeature() {
     if (newSaved.has(propertyId)) {
       newSaved.delete(propertyId)
       toast.success("Property removed from saved")
-    } else {
-newSaved.add(propertyId)
+} else {
+      newSaved.add(propertyId)
       toast.success("Property saved successfully")
     }
     setSavedProperties(newSaved)
   }
 
   const handleViewDetails = (propertyId) => {
-    toast.info(`Viewing details for property ${propertyId}`)
     // Navigate to property details page or open modal
   }
 
@@ -140,6 +139,7 @@ newSaved.add(propertyId)
       maximumFractionDigits: 0
     }).format(price)
   }
+}
 
   return (
     <div className="bg-white rounded-3xl shadow-soft overflow-hidden">
@@ -265,9 +265,8 @@ newSaved.add(propertyId)
               onChange={(e) => handleFilterChange('propertyType', e.target.value)}
               className="w-full px-4 py-2 border border-surface-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
             >
-              <option value="">All Types</option>
+<option value="">All Types</option>
               <option value="house">House</option>
-<option value="house">House</option>
               <option value="apartment">Apartment</option>
               <option value="condo">Condo</option>
               <option value="townhouse">Townhouse</option>
@@ -393,9 +392,9 @@ newSaved.add(propertyId)
                         <span>{property.bedrooms} beds</span>
                       </div>
                       <div className="flex items-center space-x-1">
-                        <ApperIcon name="Bath" className="w-4 h-4" />
+<ApperIcon name="Bath" className="w-4 h-4" />
                         <span>{property.bathrooms} baths</span>
-</div>
+                      </div>
                       <div className="flex items-center space-x-1">
                         <ApperIcon name="Maximize" className="w-4 h-4" />
                         <span>{property.squareFeet?.toLocaleString() || 'N/A'} sqft</span>

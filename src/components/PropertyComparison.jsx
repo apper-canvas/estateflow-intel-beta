@@ -555,9 +555,10 @@ useEffect(() => {
             <div className="text-sm text-blue-800">
               <p className="font-medium mb-1">Tip for mobile viewing:</p>
               <p>Scroll horizontally to view all property comparisons and features.</p>
-            </div>
+</div>
           </div>
         </div>
+      </div>
     </div>
   )
 }

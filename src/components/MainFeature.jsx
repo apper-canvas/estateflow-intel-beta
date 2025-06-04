@@ -413,9 +413,10 @@ function MainFeature() {
               Interactive map view would be displayed here with property markers
             </p>
           </div>
-        )}
+)}
       </div>
     </div>
   )
+}
 
 export default MainFeature

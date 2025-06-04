@@ -178,10 +178,10 @@ useEffect(() => {
           <h1 className="text-3xl font-heading font-bold text-surface-900 mb-2">
             Property Comparison
           </h1>
-          <p className="text-surface-600">
+<p className="text-surface-600">
             Compare key features, pricing, and amenities side by side
           </p>
-</div>
+        </div>
 
         {/* Selected Properties Summary */}
         {comparisonProperties.length > 0 && (
@@ -501,7 +501,52 @@ useEffect(() => {
               </table>
             </div>
           </div>
-        </div>
+</div>
+
+        {/* Add Another Property Section */}
+        {comparisonProperties.length < 4 && (
+          <div className="mt-8 bg-white rounded-2xl shadow-soft p-6">
+            <div className="text-center">
+              <div className="mb-4">
+                <ApperIcon name="Plus" className="w-12 h-12 text-primary mx-auto mb-3" />
+                <h3 className="text-xl font-heading font-semibold text-surface-900 mb-2">
+                  Add Another Property
+                </h3>
+                <p className="text-surface-600">
+                  Compare up to 4 properties side by side. You currently have {comparisonProperties.length} propert{comparisonProperties.length === 1 ? 'y' : 'ies'} selected.
+                </p>
+              </div>
+              
+              <button
+                onClick={() => {
+                  // Preserve current comparison in localStorage before navigating
+                  const currentIds = comparisonProperties.map(p => p.id)
+                  localStorage.setItem('comparisonProperties', JSON.stringify(currentIds))
+                  toast.info('Browse properties to add to your comparison')
+                  navigate('/properties')
+                }}
+                className="inline-flex items-center space-x-2 px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"
+              >
+                <ApperIcon name="Plus" className="w-5 h-5" />
+                <span>Add Another Property</span>
+              </button>
+              
+              <div className="mt-4 flex items-center justify-center space-x-1">
+                {[...Array(4)].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full ${
+                      index < comparisonProperties.length ? 'bg-primary' : 'bg-surface-200'
+                    }`}
+                  />
+                ))}
+                <span className="ml-3 text-sm text-surface-600">
+                  {4 - comparisonProperties.length} more slot{4 - comparisonProperties.length === 1 ? '' : 's'} available
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Mobile Notice */}
         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 lg:hidden">
@@ -513,7 +558,6 @@ useEffect(() => {
             </div>
           </div>
         </div>
-</div>
     </div>
   )
 }

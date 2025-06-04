@@ -405,12 +405,11 @@ function MainFeature() {
               ))}
             </AnimatePresence>
           </div>
-        ) : (
+) : (
           <div className="bg-surface-100 rounded-xl p-8 text-center">
             <ApperIcon name="Map" className="w-16 h-16 text-surface-400 mx-auto mb-4" />
             <h4 className="text-lg font-medium text-surface-900 mb-2">Map View</h4>
             <p className="text-surface-600">
-<p className="text-surface-600">
               Interactive map view would be displayed here with property markers
             </p>
           </div>

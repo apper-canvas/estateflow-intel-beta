@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-toastify'
 import ApperIcon from './ApperIcon'
 import propertyService from '../services/api/propertyService'
 
 function MainFeature() {
+  const navigate = useNavigate()
   const [properties, setProperties] = useState([])
   const [filteredProperties, setFilteredProperties] = useState([])
   const [loading, setLoading] = useState(false)
@@ -128,10 +130,9 @@ function MainFeature() {
     setSavedProperties(newSaved)
   }
 
-  const handleViewDetails = (propertyId) => {
-    // Navigate to property details page or open modal
+const handleViewDetails = (propertyId) => {
+    navigate(`/property/${propertyId}`)
   }
-
 const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',

@@ -122,10 +122,10 @@ function MainFeature() {
       newSaved.delete(propertyId)
       toast.success("Property removed from saved")
     } else {
-      newSaved.add(propertyId)
+newSaved.add(propertyId)
       toast.success("Property saved successfully")
     }
-setSavedProperties(newSaved)
+    setSavedProperties(newSaved)
   }
 
   const handleViewDetails = (propertyId) => {
@@ -267,19 +267,19 @@ setSavedProperties(newSaved)
             >
               <option value="">All Types</option>
               <option value="house">House</option>
+<option value="house">House</option>
               <option value="apartment">Apartment</option>
               <option value="condo">Condo</option>
               <option value="townhouse">Townhouse</option>
             </select>
           </div>
 
-          <div className="flex items-end">
+          <div className="flex items-center">
             <button
               onClick={clearFilters}
-              className="w-full px-4 py-2 bg-surface-100 text-surface-700 rounded-lg hover:bg-surface-200 transition-colors duration-200 flex items-center justify-center space-x-2"
+              className="px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors duration-200"
             >
-              <ApperIcon name="X" className="w-4 h-4" />
-              <span className="text-sm font-medium">Clear</span>
+              Clear Filters
             </button>
           </div>
         </div>
@@ -287,9 +287,9 @@ setSavedProperties(newSaved)
 
       {/* Results */}
       <div className="p-6 lg:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-surface-900">
-            {loading ? 'Loading...' : `${filteredProperties.length} Properties Found`}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+          <h3 className="text-lg font-heading font-semibold text-surface-900 mb-2 sm:mb-0">
+            Search Results
           </h3>
           {filteredProperties.length > 0 && (
             <div className="text-sm text-surface-600">
@@ -395,13 +395,12 @@ setSavedProperties(newSaved)
                       <div className="flex items-center space-x-1">
                         <ApperIcon name="Bath" className="w-4 h-4" />
                         <span>{property.bathrooms} baths</span>
-                      </div>
+</div>
                       <div className="flex items-center space-x-1">
                         <ApperIcon name="Maximize" className="w-4 h-4" />
-<span>{property.squareFeet?.toLocaleString()} sqft</span>
+                        <span>{property.squareFeet?.toLocaleString() || 'N/A'} sqft</span>
                       </div>
                     </div>
-                    
                     <button 
                       onClick={() => handleViewDetails(property.id)}
                       className="w-full py-2.5 bg-primary/10 text-primary rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200"

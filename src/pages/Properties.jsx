@@ -22,11 +22,11 @@ function Properties() {
     location: searchParams.get('location') || '',
     status: searchParams.get('status') || 'all'
   })
-  const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'newest')
+const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'newest')
   const [viewMode, setViewMode] = useState('grid')
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(12)
-
+  const [selectedForComparison, setSelectedForComparison] = useState([])
   // Load properties
   useEffect(() => {
     const loadProperties = async () => {
@@ -168,7 +168,34 @@ function Properties() {
     setSearchQuery('')
     setSortBy('newest')
     setCurrentPage(1)
-    toast.success('Filters cleared')
+toast.success('Filters cleared')
+  }
+
+  const togglePropertyForComparison = (property) => {
+    setSelectedForComparison(prev => {
+      const isSelected = prev.some(p => p.id === property.id)
+      if (isSelected) {
+        return prev.filter(p => p.id !== property.id)
+      } else if (prev.length < 4) {
+        return [...prev, property]
+      } else {
+        toast.warning('You can compare up to 4 properties at once')
+        return prev
+      }
+    })
+  }
+
+  const clearComparison = () => {
+    setSelectedForComparison([])
+    toast.info('Comparison cleared')
+  }
+
+  const goToComparison = () => {
+    if (selectedForComparison.length >= 2) {
+      // Store comparison data in localStorage for the comparison page
+      localStorage.setItem('comparisonProperties', JSON.stringify(selectedForComparison))
+      navigate('/comparison')
+    }
   }
 
   const formatPrice = (price) => {
@@ -178,7 +205,6 @@ function Properties() {
       maximumFractionDigits: 0
     }).format(price)
   }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5">
@@ -445,13 +471,25 @@ function Properties() {
                             property.status === 'pending' ? 'bg-accent text-white' : 
                             'bg-surface-400 text-white'
                           }`}>
-                            {property.status}
-                          </span>
-                        </div>
-                        <button className="absolute bottom-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-50 transition-colors duration-200">
+{property.status}
+                        </span>
+                      </div>
+                      <div className="absolute bottom-4 right-4 flex space-x-2">
+                        <button 
+                          onClick={() => togglePropertyForComparison(property)}
+                          className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 ${
+                            selectedForComparison.some(p => p.id === property.id)
+                              ? 'bg-primary text-white'
+                              : 'bg-white hover:bg-primary/10'
+                          }`}
+                        >
+                          <ApperIcon name="GitCompare" className="w-5 h-5" />
+                        </button>
+                        <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-50 transition-colors duration-200">
                           <ApperIcon name="Heart" className="w-5 h-5 text-surface-400 hover:text-red-500" />
                         </button>
                       </div>
+                    </div>
                       
                       <div className="p-6 flex-grow">
                         <h4 className="font-heading font-semibold text-xl text-surface-900 mb-2 line-clamp-2">
@@ -541,9 +579,45 @@ function Properties() {
                 </div>
               )}
             </>
-          )}
+)}
         </div>
       </section>
+
+      {/* Comparison Toolbar */}
+      {selectedForComparison.length > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
+        >
+          <div className="bg-white rounded-2xl shadow-elevated border border-surface-200 px-6 py-4">
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <ApperIcon name="GitCompare" className="w-5 h-5 text-primary" />
+                <span className="font-medium text-surface-900">
+                  {selectedForComparison.length} selected for comparison
+                </span>
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={clearComparison}
+                  className="px-4 py-2 text-surface-600 hover:text-surface-900 transition-colors text-sm font-medium"
+                >
+                  Clear All
+                </button>
+                <button
+                  onClick={goToComparison}
+                  disabled={selectedForComparison.length < 2}
+                  className="px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Compare Properties
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }

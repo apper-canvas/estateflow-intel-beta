@@ -404,7 +404,10 @@ const loadPropertyDetails = async () => {
                   >
                     Compare Properties
                   </button>
-                  <button className="w-full py-3 bg-surface-100 text-surface-700 rounded-xl font-medium hover:bg-surface-200 transition-colors">
+<button 
+                    onClick={() => navigate(`/neighborhood/${encodeURIComponent(property.location?.city)}/${encodeURIComponent(property.location?.state)}`)}
+                    className="w-full py-3 bg-surface-100 text-surface-700 rounded-xl font-medium hover:bg-surface-200 transition-colors"
+                  >
                     View Neighborhood
                   </button>
                 </div>

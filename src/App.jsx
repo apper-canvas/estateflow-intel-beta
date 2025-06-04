@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Properties from './pages/Properties'
 import NotFound from './pages/NotFound'
 import PropertyDetails from './pages/PropertyDetails'
+import NeighborhoodDetails from './pages/NeighborhoodDetails'
 import PropertyComparison from './components/PropertyComparison'
 function App() {
   return (

@@ -144,7 +144,100 @@ function PropertyComparison() {
           <p className="text-surface-600">
             Compare key features, pricing, and amenities side by side
           </p>
-        </div>
+</div>
+
+        {/* Selected Properties Summary */}
+        {comparisonProperties.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
+            <div className="bg-white rounded-2xl shadow-soft p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-heading font-semibold text-surface-900">
+                  Selected Properties for Comparison
+                </h2>
+                <div className="flex items-center space-x-2 text-sm text-surface-600">
+                  <ApperIcon name="GitCompare" className="w-4 h-4" />
+                  <span>{comparisonProperties.length} properties selected</span>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <AnimatePresence>
+                  {comparisonProperties.map((property, index) => (
+                    <motion.div
+                      key={property.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="relative bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-4 border-2 border-primary/20"
+                    >
+                      <button
+                        onClick={() => removeFromComparison(property.id)}
+                        className="absolute top-2 right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors z-10"
+                      >
+                        <ApperIcon name="X" className="w-3 h-3" />
+                      </button>
+                      
+                      <div className="aspect-[4/3] rounded-lg overflow-hidden mb-3">
+                        <img
+                          src={property.images?.[0] || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop"}
+                          alt={property.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <h3 className="font-medium text-surface-900 text-sm line-clamp-2">
+                          {property.title}
+                        </h3>
+                        
+                        <div className="flex items-center space-x-1 text-xs text-surface-600">
+                          <ApperIcon name="MapPin" className="w-3 h-3" />
+                          <span>{property.location?.city}, {property.location?.state}</span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="text-lg font-bold text-primary">
+                            {formatPrice(property.price)}
+                          </div>
+                          <div className="flex items-center space-x-2 text-xs text-surface-600">
+                            <span>{property.bedrooms}bd</span>
+                            <span>•</span>
+                            <span>{property.bathrooms}ba</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-center">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(property.status)}`}>
+                            {property.status}
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+              
+              <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <div className="flex items-start space-x-3">
+                  <ApperIcon name="Info" className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium mb-1">Comparison Tips:</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• Compare up to 4 properties side by side</li>
+                      <li>• Remove properties by clicking the X button</li>
+                      <li>• Scroll horizontally on mobile for full comparison</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Comparison Table */}
         <div className="bg-white rounded-2xl shadow-soft overflow-hidden">

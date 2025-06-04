@@ -125,7 +125,12 @@ function MainFeature() {
       newSaved.add(propertyId)
       toast.success("Property saved successfully")
     }
-    setSavedProperties(newSaved)
+setSavedProperties(newSaved)
+  }
+
+  const handleViewDetails = (propertyId) => {
+    toast.info(`Viewing details for property ${propertyId}`)
+    // Navigate to property details page or open modal
   }
 
   const formatPrice = (price) => {
@@ -393,11 +398,14 @@ function MainFeature() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <ApperIcon name="Maximize" className="w-4 h-4" />
-                        <span>{property.squareFeet?.toLocaleString()} sqft</span>
+<span>{property.squareFeet?.toLocaleString()} sqft</span>
                       </div>
                     </div>
                     
-                    <button className="w-full py-2.5 bg-primary/10 text-primary rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200">
+                    <button 
+                      onClick={() => handleViewDetails(property.id)}
+                      className="w-full py-2.5 bg-primary/10 text-primary rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200"
+                    >
                       View Details
                     </button>
                   </div>
@@ -405,7 +413,7 @@ function MainFeature() {
               ))}
             </AnimatePresence>
           </div>
-) : (
+        ) : (
           <div className="bg-surface-100 rounded-xl p-8 text-center">
             <ApperIcon name="Map" className="w-16 h-16 text-surface-400 mx-auto mb-4" />
             <h4 className="text-lg font-medium text-surface-900 mb-2">Map View</h4>
@@ -413,7 +421,7 @@ function MainFeature() {
               Interactive map view would be displayed here with property markers
             </p>
           </div>
-)}
+        )}
       </div>
     </div>
   )

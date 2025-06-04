@@ -12,37 +12,74 @@ function PropertyComparison() {
   const [comparisonProperties, setComparisonProperties] = useState([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+useEffect(() => {
     const loadComparisonData = async () => {
       setLoading(true)
       try {
-        // Get comparison property IDs from state or localStorage
-        const comparisonIds = location.state?.comparisonIds || 
+        // Get comparison data from state or localStorage
+        let comparisonData = location.state?.comparisonProperties || 
           JSON.parse(localStorage.getItem('comparisonProperties') || '[]')
         
-        if (comparisonIds.length === 0) {
+        if (!comparisonData || comparisonData.length === 0) {
           toast.warning('No properties selected for comparison')
-          navigate('/')
+          navigate('/properties')
           return
         }
 
-        // Load all properties first
+        // Load all properties for reference
         const allProperties = await propertyService.getAll()
         setProperties(allProperties)
 
-        // Filter selected properties for comparison
-        const selectedProperties = allProperties.filter(property => 
-          comparisonIds.includes(property.id)
-        )
+        let selectedProperties = []
+
+        // Handle different data formats
+        if (comparisonData.length > 0) {
+          // Check if we have full property objects or just IDs
+          const firstItem = comparisonData[0]
+          
+          if (typeof firstItem === 'object' && firstItem.id && firstItem.title) {
+            // We have full property objects from Properties page
+            selectedProperties = comparisonData.map(prop => {
+              // Ensure we have the most up-to-date property data
+              const fullProperty = allProperties.find(p => p.id === prop.id)
+              return fullProperty || prop
+            }).filter(Boolean)
+          } else if (typeof firstItem === 'string' || typeof firstItem === 'number') {
+            // We have property IDs from localStorage
+            selectedProperties = allProperties.filter(property => 
+              comparisonData.includes(property.id)
+            )
+          } else {
+            // Invalid data format
+            throw new Error('Invalid comparison data format')
+          }
+        }
+
+        // Validate we have properties to compare
+        if (selectedProperties.length === 0) {
+          toast.error('Selected properties not found or invalid')
+          navigate('/properties')
+          return
+        }
+
+        // Limit to maximum 4 properties for comparison
+        if (selectedProperties.length > 4) {
+          selectedProperties = selectedProperties.slice(0, 4)
+          toast.info('Comparison limited to 4 properties')
+        }
+
         setComparisonProperties(selectedProperties)
 
-        if (selectedProperties.length === 0) {
-          toast.error('Selected properties not found')
-          navigate('/')
-        }
+        // Update localStorage with current comparison
+        const propertyIds = selectedProperties.map(p => p.id)
+        localStorage.setItem('comparisonProperties', JSON.stringify(propertyIds))
+
+        toast.success(`Comparing ${selectedProperties.length} properties`)
+
       } catch (error) {
+        console.error('Comparison loading error:', error)
         toast.error('Failed to load comparison data')
-        navigate('/')
+        navigate('/properties')
       } finally {
         setLoading(false)
       }
@@ -311,9 +348,9 @@ function PropertyComparison() {
                     </td>
                     {comparisonProperties.map((property) => (
                       <td key={property.id} className="p-6">
-                        <div className="flex items-center space-x-2">
-                          <ApperIcon name={getPropertyTypeIcon(property.propertyType)} className="w-5 h-5 text-surface-600" />
-                          <span className="capitalize font-medium">{property.propertyType}</span>
+<div className="flex items-center space-x-2">
+                          <ApperIcon name={getPropertyTypeIcon(property.type)} className="w-5 h-5 text-surface-600" />
+                          <span className="capitalize font-medium">{property.type}</span>
                         </div>
                       </td>
                     ))}
@@ -439,9 +476,12 @@ function PropertyComparison() {
                       </div>
                     </td>
                     {comparisonProperties.map((property) => (
-                      <td key={property.id} className="p-6">
+<td key={property.id} className="p-6">
                         <div className="space-y-3">
-                          <button className="w-full py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors">
+                          <button 
+                            onClick={() => navigate(`/property/${property.id}`)}
+                            className="w-full py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors"
+                          >
                             View Details
                           </button>
                           <button className="w-full py-2.5 bg-secondary/10 text-secondary rounded-lg font-medium hover:bg-secondary hover:text-white transition-colors">

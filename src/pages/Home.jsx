@@ -12,6 +12,18 @@ function Home() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
+  
+  // Authentication modal state
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState('signin') // 'signin' or 'signup'
+  const [authLoading, setAuthLoading] = useState(false)
+  const [authError, setAuthError] = useState(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: ''
+  })
   useEffect(() => {
     const loadFeaturedData = async () => {
       setLoading(true)
@@ -33,9 +45,94 @@ function Home() {
       }
     }
 
-    loadFeaturedData()
+loadFeaturedData()
   }, [])
 
+  // Authentication handlers
+  const openSignInModal = () => {
+    setAuthMode('signin')
+    setShowAuthModal(true)
+    setAuthError(null)
+    setFormData({ name: '', email: '', phone: '', password: '' })
+  }
+
+  const openSignUpModal = () => {
+    setAuthMode('signup')
+    setShowAuthModal(true)
+    setAuthError(null)
+    setFormData({ name: '', email: '', phone: '', password: '' })
+  }
+
+  const closeAuthModal = () => {
+    setShowAuthModal(false)
+    setAuthError(null)
+    setFormData({ name: '', email: '', phone: '', password: '' })
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSignIn = async (e) => {
+    e.preventDefault()
+    setAuthLoading(true)
+    setAuthError(null)
+
+    try {
+      // Simulate authentication - replace with actual auth service
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      if (!formData.email || !formData.password) {
+        throw new Error('Please fill in all fields')
+      }
+      
+      // Mock validation
+      if (formData.password.length < 6) {
+        throw new Error('Password must be at least 6 characters')
+      }
+
+      console.log('Sign in successful:', { email: formData.email })
+      closeAuthModal()
+    } catch (err) {
+      setAuthError(err.message)
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    setAuthLoading(true)
+    setAuthError(null)
+
+    try {
+      // Simulate authentication - replace with actual auth service
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      if (!formData.name || !formData.email || !formData.phone || !formData.password) {
+        throw new Error('Please fill in all fields')
+      }
+      
+      if (formData.password.length < 6) {
+        throw new Error('Password must be at least 6 characters')
+      }
+
+      console.log('Sign up successful:', { 
+        name: formData.name, 
+        email: formData.email, 
+        phone: formData.phone 
+      })
+      closeAuthModal()
+    } catch (err) {
+      setAuthError(err.message)
+    } finally {
+      setAuthLoading(false)
+    }
+  }
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -93,7 +190,10 @@ function Home() {
                 <ApperIcon name="Search" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-surface-400" />
               </div>
               
-              <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors duration-200">
+<button 
+                onClick={openSignInModal}
+                className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors duration-200"
+              >
                 <ApperIcon name="User" className="w-4 h-4" />
                 <span className="text-sm font-medium">Sign In</span>
               </button>
@@ -358,8 +458,162 @@ function Home() {
           <div className="border-t border-surface-700 mt-8 pt-8 text-center text-surface-400">
             <p>&copy; 2024 EstateFlow. All rights reserved.</p>
           </div>
-        </div>
+</div>
       </footer>
+
+      {/* Authentication Modal */}
+      <AnimatePresence>
+        {showAuthModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            onClick={closeAuthModal}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-heading font-bold text-surface-900">
+                    {authMode === 'signin' ? 'Welcome Back' : 'Create Account'}
+                  </h2>
+                  <button
+                    onClick={closeAuthModal}
+                    className="p-2 hover:bg-surface-100 rounded-full transition-colors"
+                  >
+                    <ApperIcon name="X" className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {authError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-2 text-red-700">
+                    <ApperIcon name="AlertTriangle" className="w-4 h-4" />
+                    <span className="text-sm">{authError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={authMode === 'signin' ? handleSignIn : handleSignUp} className="space-y-4">
+                  {authMode === 'signup' && (
+                    <div>
+                      <label className="block text-sm font-medium text-surface-700 mb-1">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-surface-700 mb-1">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+
+                  {authMode === 'signup' && (
+                    <div>
+                      <label className="block text-sm font-medium text-surface-700 mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                        placeholder="Enter your phone number"
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-surface-700 mb-1">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                      placeholder="Enter your password"
+                      required
+                      minLength={6}
+                    />
+                    {authMode === 'signup' && (
+                      <p className="text-xs text-surface-500 mt-1">
+                        Password must be at least 6 characters long
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  >
+                    {authLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>{authMode === 'signin' ? 'Signing In...' : 'Creating Account...'}</span>
+                      </>
+                    ) : (
+                      <span>{authMode === 'signin' ? 'Sign In' : 'Create Account'}</span>
+                    )}
+                  </button>
+                </form>
+
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-surface-600">
+                    {authMode === 'signin' ? "Don't have an account?" : "Already have an account?"}
+                    <button
+                      type="button"
+                      onClick={authMode === 'signin' ? openSignUpModal : openSignInModal}
+                      className="ml-1 text-primary hover:text-primary-dark font-medium transition-colors"
+                    >
+                      {authMode === 'signin' ? 'Sign Up' : 'Sign In'}
+                    </button>
+                  </p>
+                </div>
+
+                {authMode === 'signin' && (
+                  <div className="mt-4 text-center">
+                    <button
+                      type="button"
+                      className="text-sm text-surface-500 hover:text-surface-700 transition-colors"
+                    >
+                      Forgot your password?
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

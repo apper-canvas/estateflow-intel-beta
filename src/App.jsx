@@ -3,10 +3,10 @@ import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
+import Properties from './pages/Properties'
 import NotFound from './pages/NotFound'
 import PropertyDetails from './pages/PropertyDetails'
 import PropertyComparison from './components/PropertyComparison'
-
 function App() {
   return (
     <div className="min-h-screen bg-surface-50">

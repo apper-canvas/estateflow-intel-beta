@@ -71,6 +71,27 @@ const loadPropertyDetails = async () => {
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite)
     toast.success(isFavorite ? 'Removed from favorites' : 'Added to favorites')
+}
+
+  const handleCompareProperty = () => {
+    if (!property) return
+    
+    // Get existing comparison list from localStorage
+    const existingComparisons = JSON.parse(localStorage.getItem('comparisonProperties') || '[]')
+    
+    // Check if property is already in comparison
+    if (existingComparisons.includes(property.id)) {
+      toast.info('Property is already in comparison list')
+      navigate('/comparison')
+      return
+    }
+    
+    // Add current property to comparison
+    const updatedComparisons = [...existingComparisons, property.id]
+    localStorage.setItem('comparisonProperties', JSON.stringify(updatedComparisons))
+    
+    toast.success('Property added to comparison!')
+    navigate('/comparison')
   }
 
   const nextImage = () => {
@@ -88,7 +109,6 @@ const loadPropertyDetails = async () => {
       )
     }
   }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-surface-50">
@@ -377,9 +397,9 @@ const loadPropertyDetails = async () => {
                 <div className="space-y-3">
                   <button className="w-full py-3 bg-secondary text-white rounded-xl font-medium hover:bg-secondary/90 transition-colors">
                     Calculate Mortgage
-                  </button>
+</button>
                   <button 
-                    onClick={() => navigate('/comparison')}
+                    onClick={handleCompareProperty}
                     className="w-full py-3 bg-surface-100 text-surface-700 rounded-xl font-medium hover:bg-surface-200 transition-colors"
                   >
                     Compare Properties

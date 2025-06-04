@@ -132,14 +132,13 @@ function MainFeature() {
     // Navigate to property details page or open modal
   }
 
-  const formatPrice = (price) => {
+const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0
     }).format(price)
   }
-}
 
   return (
     <div className="bg-white rounded-3xl shadow-soft overflow-hidden">

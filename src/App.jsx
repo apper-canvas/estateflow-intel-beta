@@ -11,6 +11,7 @@ function App() {
     <div className="min-h-screen bg-surface-50">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/comparison" element={<PropertyComparison />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

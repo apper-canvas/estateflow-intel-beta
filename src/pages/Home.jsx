@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import MainFeature from '../components/MainFeature'
 import ApperIcon from '../components/ApperIcon'
 import propertyService from '../services/api/propertyService'
 import agentService from '../services/api/agentService'
-
 function Home() {
+  const navigate = useNavigate()
   const [featuredProperties, setFeaturedProperties] = useState([])
   const [topAgents, setTopAgents] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
-
   useEffect(() => {
     const loadFeaturedData = async () => {
       setLoading(true)
@@ -241,9 +241,12 @@ function Home() {
                           <ApperIcon name="Maximize" className="w-4 h-4" />
                           <span>{property.squareFeet?.toLocaleString()} sqft</span>
                         </div>
-                      </div>
+</div>
                       
-                      <button className="w-full py-3 bg-primary/10 text-primary rounded-xl font-medium hover:bg-primary hover:text-white transition-all duration-200 group-hover:bg-primary group-hover:text-white">
+                      <button 
+                        onClick={() => navigate(`/property/${property.id}`)}
+                        className="w-full py-3 bg-primary/10 text-primary rounded-xl font-medium hover:bg-primary hover:text-white transition-all duration-200 group-hover:bg-primary group-hover:text-white"
+                      >
                         View Details
                       </button>
                     </div>

@@ -10,8 +10,9 @@ import PropertyComparison from './components/PropertyComparison'
 function App() {
   return (
     <div className="min-h-screen bg-surface-50">
-      <Routes>
+<Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/properties" element={<Properties />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/comparison" element={<PropertyComparison />} />
         <Route path="*" element={<NotFound />} />

@@ -4,12 +4,14 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
+import PropertyComparison from './components/PropertyComparison'
 
 function App() {
   return (
     <div className="min-h-screen bg-surface-50">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/comparison" element={<PropertyComparison />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       

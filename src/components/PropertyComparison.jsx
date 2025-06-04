@@ -1,0 +1,388 @@
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'react-toastify'
+import ApperIcon from './ApperIcon'
+import propertyService from '../services/api/propertyService'
+
+function PropertyComparison() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [properties, setProperties] = useState([])
+  const [comparisonProperties, setComparisonProperties] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const loadComparisonData = async () => {
+      setLoading(true)
+      try {
+        // Get comparison property IDs from state or localStorage
+        const comparisonIds = location.state?.comparisonIds || 
+          JSON.parse(localStorage.getItem('comparisonProperties') || '[]')
+        
+        if (comparisonIds.length === 0) {
+          toast.warning('No properties selected for comparison')
+          navigate('/')
+          return
+        }
+
+        // Load all properties first
+        const allProperties = await propertyService.getAll()
+        setProperties(allProperties)
+
+        // Filter selected properties for comparison
+        const selectedProperties = allProperties.filter(property => 
+          comparisonIds.includes(property.id)
+        )
+        setComparisonProperties(selectedProperties)
+
+        if (selectedProperties.length === 0) {
+          toast.error('Selected properties not found')
+          navigate('/')
+        }
+      } catch (error) {
+        toast.error('Failed to load comparison data')
+        navigate('/')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadComparisonData()
+  }, [location.state, navigate])
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(price)
+  }
+
+  const removeFromComparison = (propertyId) => {
+    const updatedProperties = comparisonProperties.filter(p => p.id !== propertyId)
+    setComparisonProperties(updatedProperties)
+    
+    // Update localStorage
+    const updatedIds = updatedProperties.map(p => p.id)
+    localStorage.setItem('comparisonProperties', JSON.stringify(updatedIds))
+    
+    toast.success('Property removed from comparison')
+    
+    if (updatedProperties.length === 0) {
+      navigate('/')
+    }
+  }
+
+  const clearAllComparisons = () => {
+    setComparisonProperties([])
+    localStorage.setItem('comparisonProperties', JSON.stringify([]))
+    toast.success('All comparisons cleared')
+    navigate('/')
+  }
+
+  const getPropertyTypeIcon = (type) => {
+    switch (type) {
+      case 'house': return 'Home'
+      case 'apartment': return 'Building'
+      case 'condo': return 'Building2'
+      case 'townhouse': return 'Buildings'
+      default: return 'Home'
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'available': return 'bg-secondary text-white'
+      case 'pending': return 'bg-accent text-white'
+      case 'sold': return 'bg-surface-400 text-white'
+      default: return 'bg-surface-400 text-white'
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-surface-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-surface-600">Loading comparison...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-surface-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => navigate('/')}
+              className="flex items-center space-x-2 text-surface-600 hover:text-surface-900 transition-colors"
+            >
+              <ApperIcon name="ArrowLeft" className="w-5 h-5" />
+              <span className="font-medium">Back to Search</span>
+            </button>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-surface-600">
+                Comparing {comparisonProperties.length} properties
+              </span>
+              <button
+                onClick={clearAllComparisons}
+                className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+              >
+                Clear All
+              </button>
+            </div>
+          </div>
+          
+          <h1 className="text-3xl font-heading font-bold text-surface-900 mb-2">
+            Property Comparison
+          </h1>
+          <p className="text-surface-600">
+            Compare key features, pricing, and amenities side by side
+          </p>
+        </div>
+
+        {/* Comparison Table */}
+        <div className="bg-white rounded-2xl shadow-soft overflow-hidden">
+          <div className="overflow-x-auto custom-scrollbar">
+            <div className="min-w-full">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-surface-200">
+                    <th className="text-left p-6 font-medium text-surface-900 bg-surface-50 w-48">
+                      Property Details
+                    </th>
+                    {comparisonProperties.map((property) => (
+                      <th key={property.id} className="p-6 w-80">
+                        <div className="relative">
+                          <button
+                            onClick={() => removeFromComparison(property.id)}
+                            className="absolute top-0 right-0 w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors z-10"
+                          >
+                            <ApperIcon name="X" className="w-4 h-4" />
+                          </button>
+                          
+                          <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4">
+                            <img
+                              src={property.images?.[0] || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop"}
+                              alt={property.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          
+                          <h3 className="font-heading font-semibold text-lg text-surface-900 mb-2 line-clamp-2">
+                            {property.title}
+                          </h3>
+                          
+                          <div className="flex items-center space-x-1 text-surface-600 mb-3">
+                            <ApperIcon name="MapPin" className="w-4 h-4" />
+                            <span className="text-sm">
+                              {property.location?.city}, {property.location?.state}
+                            </span>
+                          </div>
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {/* Price */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="DollarSign" className="w-5 h-5 text-primary" />
+                        <span>Price</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <div className="text-2xl font-bold text-primary">
+                          {formatPrice(property.price)}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Property Type */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Home" className="w-5 h-5 text-primary" />
+                        <span>Property Type</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <ApperIcon name={getPropertyTypeIcon(property.propertyType)} className="w-5 h-5 text-surface-600" />
+                          <span className="capitalize font-medium">{property.propertyType}</span>
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Status */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Activity" className="w-5 h-5 text-primary" />
+                        <span>Status</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(property.status)}`}>
+                          {property.status}
+                        </span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Bedrooms */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Bed" className="w-5 h-5 text-primary" />
+                        <span>Bedrooms</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <span className="text-lg font-semibold">{property.bedrooms}</span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Bathrooms */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Bath" className="w-5 h-5 text-primary" />
+                        <span>Bathrooms</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <span className="text-lg font-semibold">{property.bathrooms}</span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Square Feet */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Maximize" className="w-5 h-5 text-primary" />
+                        <span>Square Feet</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <span className="text-lg font-semibold">
+                          {property.squareFeet?.toLocaleString()} sqft
+                        </span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Amenities */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="Star" className="w-5 h-5 text-primary" />
+                        <span>Amenities</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <div className="space-y-2">
+                          {property.amenities?.slice(0, 5).map((amenity, index) => (
+                            <div key={index} className="flex items-center space-x-2">
+                              <ApperIcon name="Check" className="w-4 h-4 text-secondary" />
+                              <span className="text-sm text-surface-700">{amenity}</span>
+                            </div>
+                          ))}
+                          {property.amenities?.length > 5 && (
+                            <div className="text-sm text-surface-500">
+                              +{property.amenities.length - 5} more
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Address */}
+                  <tr className="border-b border-surface-100">
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="MapPin" className="w-5 h-5 text-primary" />
+                        <span>Address</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <div className="text-sm text-surface-700">
+                          <div>{property.location?.street}</div>
+                          <div>
+                            {property.location?.city}, {property.location?.state} {property.location?.zipCode}
+                          </div>
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Actions */}
+                  <tr>
+                    <td className="p-6 font-medium text-surface-900 bg-surface-50">
+                      <div className="flex items-center space-x-2">
+                        <ApperIcon name="MousePointer" className="w-5 h-5 text-primary" />
+                        <span>Actions</span>
+                      </div>
+                    </td>
+                    {comparisonProperties.map((property) => (
+                      <td key={property.id} className="p-6">
+                        <div className="space-y-3">
+                          <button className="w-full py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors">
+                            View Details
+                          </button>
+                          <button className="w-full py-2.5 bg-secondary/10 text-secondary rounded-lg font-medium hover:bg-secondary hover:text-white transition-colors">
+                            Contact Agent
+                          </button>
+                          <button
+                            onClick={() => removeFromComparison(property.id)}
+                            className="w-full py-2.5 bg-red-100 text-red-700 rounded-lg font-medium hover:bg-red-200 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Notice */}
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 lg:hidden">
+          <div className="flex items-start space-x-3">
+            <ApperIcon name="Info" className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div className="text-sm text-blue-800">
+              <p className="font-medium mb-1">Tip for mobile viewing:</p>
+              <p>Scroll horizontally to view all property comparisons and features.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default PropertyComparison
